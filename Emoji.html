@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assignment 1</title>
+    <div style="text-align:center">
+    <h1>Crying Emoji</h1>
+</head>
+<body>
+<canvas id="myCanvas"
+        width="300" height="300"
+        style="border:3px solid #000;"></canvas>
+<br/>
+<br/>
+<input id="slider1" type="range" min="0" max="5" />
+</div>
+<br/>
+<br/>
+<script>
+window.onload = function() {
+    var canvas = document.getElementById('myCanvas');
+
+    var slider1 = document.getElementById('slider1');
+    slider1.value = 0;
+
+    var y = 50;
+    let id;
+
+    function draw() {
+        var context = canvas.getContext('2d');
+
+        canvas.width = canvas.width;
+
+        var dy = slider1.value;
+        context.lineWidth = 4;
+
+        var phi1 = slider1.value * 0.01 * Math.PI;
+        var phi2 = slider1.value * -0.02 * Math.PI;
+
+        context.beginPath();
+        context.rect(0, 0, 300, 300);
+        context.fillStyle = "#ffcb4c";
+        context.fill();
+
+        context.beginPath();
+        context.rect(55, y + 50, 40, 40);
+        context.fillStyle = "#add8e6";
+        context.fill();
+        context.beginPath();
+        context.rect(205, y + 50, 40, 40);
+        context.fillStyle = "#add8e6";
+        context.fill();
+
+        y = (y + 2) % 100;
+        id = window.requestAnimationFrame(draw);
+
+        function drawLeftEye(color) {
+            context.beginPath();
+            context.rect(50, 50, 50, 50);
+            context.fillStyle = color;
+            context.fill();
+            context.closePath();
+            context.stroke();
+        }
+
+        function drawRightEye(color) {
+            context.beginPath();
+            context.rect(200, 50, 50, 50);
+            context.fillStyle = color;
+            context.fill();
+            context.closePath();
+            context.stroke();
+        }
+
+        function drawLeftIris(color) {
+            context.beginPath();
+            context.fillStyle = color;
+            context.moveTo(60, 60);
+            context.lineTo(60, 90);
+            context.lineTo(90, 90);
+            context.closePath();
+            context.fill();
+            context.stroke();
+        }
+
+        function drawRightIris(color) {
+            context.beginPath();
+            context.fillStyle = color;
+            context.moveTo(240, 60);
+            context.lineTo(240, 90);
+            context.lineTo(210, 90);
+            context.closePath();
+            context.fill();
+            context.stroke();
+        }
+
+        function drawNose(color) {
+            context.beginPath();
+            context.fillStyle = color;
+            context.arc(150, 150, 10, 0, 2 * Math.PI);
+            context.lineWidth = 5;
+            context.stroke();
+            context.fill();
+        }
+
+        function drawMouth(color) {
+            context.beginPath();
+            context.fillStyle = color;
+            context.arc(150, 200, 70, 0 * Math.PI, Math.PI);
+            context.fill();
+            context.stroke();
+            context.beginPath();
+            context.moveTo(50, 200);
+            context.lineTo(250, 200);
+            context.stroke();
+        }
+
+        function drawMouth() {
+            context.beginPath();
+
+            context.moveTo(100, 200);
+            context.lineTo(200, 200);
+
+            context.moveTo(75, 215);
+            context.lineTo(100, 215);
+
+            context.moveTo(200, 215);
+            context.lineTo(225, 215);
+
+            context.moveTo(50, 230);
+            context.lineTo(75, 230);
+
+            context.moveTo(225, 230);
+            context.lineTo(250, 230);
+            context.lineWidth = 15;
+            context.stroke();
+        }
+
+        function drawLeftEyebrow() {
+            context.beginPath();
+            context.moveTo(45, 40);
+            context.lineTo(105, 40);
+            context.stroke();
+            context.beginPath();
+            context.arc(50, 55, 15, Math.PI, 1.5 * Math.PI);
+            context.stroke();
+        }
+
+        function drawRightEyebrow() {
+            context.moveTo(195, 40);
+            context.lineTo(255, 40);
+            context.stroke();
+            context.beginPath();
+            context.arc(250, 55, 15, 1.5 * Math.PI, 0);
+            context.stroke();
+        }
+
+        drawLeftEye("white");
+        drawLeftIris("black");
+        drawRightEye("white");
+        drawRightIris("black");
+        drawMouth();
+        drawNose("pink");
+
+        context.translate(105,40);
+        context.rotate(phi1);
+        context.translate(-105,-40);
+        drawLeftEyebrow();
+
+        context.translate(150,40);
+        context.rotate(phi2);
+        context.translate(-150,-40);
+        drawRightEyebrow();
+    }
+
+    slider1.addEventListener("input", draw);
+
+    id = window.requestAnimationFrame(draw);
+
+    let btn = document.createElement("button");
+    btn.innerHTML = "Click here to slow down animation!";
+
+    // Next 3 lines of code referenced from:
+    // https://stackoverflow.com/questions/68140230/how-to-center-a-button-in-javascript
+    btn.style.position = "absolute";
+    btn.style.left = "50%";
+    btn.style.transform = "translateX(-50%)";
+
+    btn.onclick = function () {
+        window.cancelAnimationFrame(id);
+    };
+    document.body.appendChild(btn);
+
+    draw();
+}
+</script>
+</body>
+</html>
